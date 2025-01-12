@@ -1,5 +1,6 @@
 import { selector, selectorFamily } from "recoil";
 import { currentUserIDState } from "./atoms";
+import { User } from "@/types/userTypes";
 
 const tableOfUsers = [
   { id: 1, name: "Alice" },
@@ -63,5 +64,39 @@ export const userNameQuery = selectorFamily({
       console.error("Error fetching data:", error);
       return error;
     }
+  },
+});
+
+export const userInfoQuery = selectorFamily({
+  key: "UserInfoQuery",
+  get: (userId: number) => async () => {
+    try {
+      const url = `${import.meta.env.VITE_API_URL}/users/${userId}`;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return error;
+    }
+  },
+});
+
+export const currentUserInfoQuery = selector({
+  key: "CurrentUserInfoQuery",
+  get: ({ get }) => get(userInfoQuery(get(currentUserIDState))),
+});
+
+export const friendsInfoQuery = selector({
+  key: "FriendsInfoQuery",
+  get: ({ get }) => {
+    const { friendList } = get(currentUserInfoQuery);
+    return friendList.map((friend: User) => get(userInfoQuery(friend.id)));
   },
 });
