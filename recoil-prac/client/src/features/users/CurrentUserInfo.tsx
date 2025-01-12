@@ -1,8 +1,10 @@
+import { currentUserIDState } from "@/recoil/users/atoms";
 import { useRecoilValue } from "recoil";
-import { currentUserNameState } from "./states/currentUserNameState";
-import { currentUserNameQuery } from "./states/currentUserNameQuery";
-import { userNameQuery } from "./states/userNameQuery";
-import { currentUserIDState } from "./states/currentUserIdState";
+import {
+  currentUserNameQuery,
+  currentUserNameState,
+  userNameQuery,
+} from "@/recoil/users/selectors";
 
 export default function CurrentUserInfo() {
   const userId = useRecoilValue(currentUserIDState);
