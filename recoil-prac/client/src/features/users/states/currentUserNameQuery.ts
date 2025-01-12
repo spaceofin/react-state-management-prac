@@ -18,6 +18,7 @@ export const currentUserNameQuery = selector({
       return data.name;
     } catch (error) {
       console.error("Error fetching data:", error);
+      return error;
     }
   },
 });
