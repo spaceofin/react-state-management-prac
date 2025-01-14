@@ -1,10 +1,11 @@
 import { currentUserIDState } from "@/recoil/users/atoms";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilCallback, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   currentUserInfoQuery,
   currentUserNameQuery,
   currentUserNameState,
   friendsInfoQuery,
+  userInfoQuery,
   userNameQuery,
 } from "@/recoil/users/selectors";
 import { User } from "@/types/userTypes";
@@ -16,7 +17,15 @@ export default function CurrentUserInfo() {
 
   const currentUser = useRecoilValue(currentUserInfoQuery);
   const friends = useRecoilValue(friendsInfoQuery);
-  const setCurrentUserID = useSetRecoilState(currentUserIDState);
+  // const setCurrentUserID = useSetRecoilState(currentUserIDState);
+
+  const changeUser = useRecoilCallback(
+    ({ snapshot, set }) =>
+      (userId: number) => {
+        snapshot.getLoadable(userInfoQuery(userId));
+        set(currentUserIDState, userId);
+      }
+  );
 
   return (
     <div>
@@ -36,8 +45,13 @@ export default function CurrentUserInfo() {
       <div>
         <h1>{currentUser.name}</h1>
         <ul>
-          {friends.map((friend: User) => (
+          {/* {friends.map((friend: User) => (
             <li key={friend.id} onClick={() => setCurrentUserID(friend.id)}>
+              {friend.name}
+            </li>
+          ))} */}
+          {friends.map((friend: User) => (
+            <li key={friend.id} onClick={() => changeUser(friend.id)}>
               {friend.name}
             </li>
           ))}
