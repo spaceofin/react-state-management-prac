@@ -1,4 +1,4 @@
-import { currentUserIDState } from "@/recoil/users/atoms";
+import { currentUserIDState, userInfoState } from "@/recoil/users/atoms";
 import {
   RecoilValue,
   UnwrapRecoilValues,
@@ -33,6 +33,12 @@ export default function CurrentUserInfo() {
   //     }
   // );
 
+  const users: User[] = [
+    useRecoilValue(userInfoState(1)),
+    useRecoilValue(userInfoState(2)),
+    useRecoilValue(userInfoState(3)),
+  ];
+
   return (
     <div>
       <div>
@@ -62,6 +68,13 @@ export default function CurrentUserInfo() {
             </li>
           ))} */}
         </ul>
+      </div>
+      <div>
+        {users.map((user) => (
+          <div key={user.id}>
+            user{user.id}'s name: {user.name}
+          </div>
+        ))}
       </div>
     </div>
   );

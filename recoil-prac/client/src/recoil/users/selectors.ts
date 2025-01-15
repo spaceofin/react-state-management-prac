@@ -106,12 +106,12 @@ export const friendsInfoQuery = selector({
   key: "FriendsInfoQuery",
   get: ({ get }) => {
     const { friendList } = get(currentUserInfoQuery);
-    // return friendList.map((friend: User) => get(userInfoQuery(friend.id)));
+    return friendList.map((friend: User) => get(userInfoQuery(friend.id)));
 
-    const friends = get(
-      waitForAll(friendList.map((friend: User) => userInfoQuery(friend.id)))
-    );
-    return friends;
+    // const friends = get(
+    //   waitForAll(friendList.map((friend: User) => userInfoQuery(friend.id)))
+    // );
+    // return friends;
 
     //   const friendLoadables = get(
     //     waitForNone(friendList.map((friend: User) => userInfoQuery(friend.id)))
