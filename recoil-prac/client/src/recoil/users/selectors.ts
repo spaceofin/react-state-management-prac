@@ -1,4 +1,13 @@
-import { selector, selectorFamily } from "recoil";
+import {
+  Loadable,
+  RecoilValue,
+  RecoilValueReadOnly,
+  selector,
+  selectorFamily,
+  UnwrapRecoilValues,
+  waitForAll,
+  waitForNone,
+} from "recoil";
 import { currentUserIDState } from "./atoms";
 import { User } from "@/types/userTypes";
 
@@ -97,6 +106,19 @@ export const friendsInfoQuery = selector({
   key: "FriendsInfoQuery",
   get: ({ get }) => {
     const { friendList } = get(currentUserInfoQuery);
-    return friendList.map((friend: User) => get(userInfoQuery(friend.id)));
+    // return friendList.map((friend: User) => get(userInfoQuery(friend.id)));
+
+    const friends = get(
+      waitForAll(friendList.map((friend: User) => userInfoQuery(friend.id)))
+    );
+    return friends;
+
+    //   const friendLoadables = get(
+    //     waitForNone(friendList.map((friend: User) => userInfoQuery(friend.id)))
+    //   ) as unknown as Loadable<User>[];
+
+    //   return friendLoadables
+    //     .filter(({ state }) => state === "hasValue")
+    //     .map(({ contents }) => contents);
   },
 });

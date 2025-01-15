@@ -1,5 +1,11 @@
 import { currentUserIDState } from "@/recoil/users/atoms";
-import { useRecoilCallback, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  RecoilValue,
+  UnwrapRecoilValues,
+  useRecoilCallback,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import {
   currentUserInfoQuery,
   currentUserNameQuery,
@@ -16,16 +22,16 @@ export default function CurrentUserInfo() {
   const userNameFromAsyncFetch = useRecoilValue(currentUserNameQuery);
 
   const currentUser = useRecoilValue(currentUserInfoQuery);
-  const friends = useRecoilValue(friendsInfoQuery);
-  // const setCurrentUserID = useSetRecoilState(currentUserIDState);
+  const friends = useRecoilValue(friendsInfoQuery) as unknown as User[];
+  const setCurrentUserID = useSetRecoilState(currentUserIDState);
 
-  const changeUser = useRecoilCallback(
-    ({ snapshot, set }) =>
-      (userId: number) => {
-        snapshot.getLoadable(userInfoQuery(userId));
-        set(currentUserIDState, userId);
-      }
-  );
+  // const changeUser = useRecoilCallback(
+  //   ({ snapshot, set }) =>
+  //     (userId: number) => {
+  //       snapshot.getLoadable(userInfoQuery(userId));
+  //       set(currentUserIDState, userId);
+  //     }
+  // );
 
   return (
     <div>
@@ -45,16 +51,16 @@ export default function CurrentUserInfo() {
       <div>
         <h1>{currentUser.name}</h1>
         <ul>
-          {/* {friends.map((friend: User) => (
+          {friends.map((friend: User) => (
             <li key={friend.id} onClick={() => setCurrentUserID(friend.id)}>
               {friend.name}
             </li>
-          ))} */}
-          {friends.map((friend: User) => (
+          ))}
+          {/* {friends.map((friend: User) => (
             <li key={friend.id} onClick={() => changeUser(friend.id)}>
               {friend.name}
             </li>
-          ))}
+          ))} */}
         </ul>
       </div>
     </div>
