@@ -1,4 +1,4 @@
-function App() {
+export default function Home() {
   return (
     <div className="py-14 px-16">
       <h1 className="text-4xl font-bold text-slate-800">React State Hooks</h1>
@@ -8,5 +8,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
