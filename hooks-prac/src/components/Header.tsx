@@ -6,6 +6,7 @@ export default function Header() {
       <nav className="flex gap-12">
         <Link to="/">Home</Link>
         <Link to="/use-state">useState</Link>
+        <Link to="/use-reducer">useReducer</Link>
       </nav>
     </header>
   );
