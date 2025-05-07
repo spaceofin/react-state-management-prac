@@ -1,3 +1,5 @@
+import { Counter } from "./redux/counter";
+
 function App() {
   return (
     <div className="py-14 px-16">
@@ -7,6 +9,9 @@ function App() {
       <p className="text-xl my-2 text-slate-700">
         Hello, This is a Project for practicing React-Redux
       </p>
+      <div className="my-10">
+        <Counter />
+      </div>
     </div>
   );
 }
