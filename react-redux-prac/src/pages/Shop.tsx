@@ -1,11 +1,15 @@
 import Auth from "../components/Shop/Auth";
+import ProductList from "../components/Shop/ProductList";
 import User from "../components/Shop/User";
 
 export default function Shop() {
   return (
-    <div className="p-10 flex grid-cols-2 gap-10">
-      <Auth />
-      <User />
+    <div>
+      <div className="inline-grid grid-cols-2 gap-5 p-10">
+        <Auth />
+        <User />
+        <ProductList />
+      </div>
     </div>
   );
 }
