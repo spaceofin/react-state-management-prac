@@ -1,4 +1,5 @@
 import Auth from "../components/Shop/Auth";
+import ProductDetail from "../components/Shop/ProductDetail";
 import ProductList from "../components/Shop/ProductList";
 import User from "../components/Shop/User";
 
@@ -9,6 +10,7 @@ export default function Shop() {
         <Auth />
         <User />
         <ProductList />
+        <ProductDetail />
       </div>
     </div>
   );
