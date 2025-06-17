@@ -1,4 +1,5 @@
 import Auth from "../components/Shop/Auth";
+import Cart from "../components/Shop/Cart";
 import ProductDetail from "../components/Shop/ProductDetail";
 import ProductList from "../components/Shop/ProductList";
 import User from "../components/Shop/User";
@@ -11,6 +12,9 @@ export default function Shop() {
         <User />
         <ProductList />
         <ProductDetail />
+        <div className="col-span-2">
+          <Cart />
+        </div>
       </div>
     </div>
   );
