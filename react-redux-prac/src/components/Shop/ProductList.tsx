@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { setProducts } from "../../redux/product/productListSlice";
-import productData from "../../data/products.json";
 import type { Product } from "../../types/product";
 import { setProduct } from "../../redux/product/productSlice";
 
@@ -17,10 +15,6 @@ function Product({
   const isSelected = selectedProductIds.has(product.id);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(setProducts(productData));
-  }, []);
-
   const onProductClick = (productId: number) => {
     setSelectedProductIds((prev) => {
       const newSet = new Set(prev);
@@ -31,6 +25,7 @@ function Product({
     });
     dispatch(setProduct(product));
   };
+
   return (
     <div
       onClick={() => onProductClick(product.id)}
@@ -46,6 +41,7 @@ function Product({
 
 export default function ProductList() {
   const { products } = useAppSelector((state) => state.productList);
+
   const [selectedProductIds, setSelectedProductIds] = useState<Set<number>>(
     new Set()
   );
@@ -56,6 +52,7 @@ export default function ProductList() {
       <div className="inline-grid grid-cols-2 gap-1 w-full">
         {products.map((product) => (
           <Product
+            key={product.id}
             product={product}
             selectedProductIds={selectedProductIds}
             setSelectedProductIds={setSelectedProductIds}
