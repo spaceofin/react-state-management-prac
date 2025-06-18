@@ -3,6 +3,7 @@ import counterReducer from "./counter/counterSlice";
 import userReducer from "./user/userSlice";
 import productListReducer from "./product/productListSlice";
 import productReducer from "./product/productSlice";
+import cartReducer from "./cart/cartSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     user: userReducer,
     productList: productListReducer,
     product: productReducer,
+    cart: cartReducer,
   },
 });
 

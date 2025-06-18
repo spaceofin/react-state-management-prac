@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import type { Product } from "../../types/product";
 import { setProduct } from "../../redux/product/productSlice";
+import { addItems } from "../../redux/cart/cartSlice";
 
 function Product({
   product,
@@ -41,10 +42,18 @@ function Product({
 
 export default function ProductList() {
   const { products } = useAppSelector((state) => state.productList);
+  const dispatch = useAppDispatch();
 
   const [selectedProductIds, setSelectedProductIds] = useState<Set<number>>(
     new Set()
   );
+
+  const handleAddToCart = () => {
+    const selectedProducts = products.filter((product) =>
+      [...selectedProductIds].includes(product.id)
+    );
+    dispatch(addItems(selectedProducts));
+  };
 
   return (
     <div className="bg-orange-500/90 w-96 h-56 rounded-md py-5 px-10 text-white">
@@ -60,7 +69,9 @@ export default function ProductList() {
         ))}
       </div>
       <div className="flex justify-center mt-2">
-        <button className="text-lg font-bold px-4 py-1 bg-white/70 text-gray-700 rounded-sm w-full hover:cursor-pointer">
+        <button
+          onClick={handleAddToCart}
+          className="text-lg font-bold px-4 py-1 bg-white/70 text-gray-700 rounded-sm w-full hover:cursor-pointer">
           Add To Cart
         </button>
       </div>
