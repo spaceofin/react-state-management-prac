@@ -4,7 +4,9 @@ import { useDispatch } from "react-redux";
 import {
   increaseItemQuantity,
   decreaseItemQuantity,
+  removeItem,
 } from "../../redux/cart/cartSlice";
+import { IoMdCloseCircle } from "react-icons/io";
 
 function QuantityControl({
   value,
@@ -39,17 +41,28 @@ function CartItem({ item }: { item: CartItem }) {
 
   const handleIncrease = () => dispatch(increaseItemQuantity(item.product.id));
   const handleDecrease = () => dispatch(decreaseItemQuantity(item.product.id));
+  const handleRemove = () => {
+    dispatch(removeItem(item.product.id));
+  };
 
   return (
-    <div className="w-[250px] flex justify-between bg-gray-50/50 py-1 px-2 rounded-sm">
+    <div className="w-[300px] flex justify-between bg-gray-50/50 py-1 px-2 rounded-sm">
       <span className="bg-gray-100 w-[130px] flex justify-center rounded-md text-gray-700">
         {item.product.name}
       </span>
-      <QuantityControl
-        value={item.quantity}
-        onIncrease={handleIncrease}
-        onDecrease={handleDecrease}
-      />
+      <div className="flex gap-2 items-center">
+        <QuantityControl
+          value={item.quantity}
+          onIncrease={handleIncrease}
+          onDecrease={handleDecrease}
+        />
+        <IoMdCloseCircle
+          color="#444"
+          size={22}
+          className="hover:cursor-pointer"
+          onClick={handleRemove}
+        />
+      </div>
     </div>
   );
 }
