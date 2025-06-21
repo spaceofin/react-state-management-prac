@@ -2,11 +2,13 @@ import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { login, logout } from "../../redux/user/userSlice";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
+import { setCart } from "../../redux/cart/cartSlice";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const user = useAppSelector((state) => state.user);
+  const cart = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   const handleLogin = () => {
@@ -14,6 +16,11 @@ export default function Auth() {
     if (!id) {
       id = uuidv4();
       sessionStorage.setItem(`userId_${email}`, id);
+    }
+    const savedCart = sessionStorage.getItem(`user_${email}_cart`);
+    if (savedCart) {
+      const parsed = JSON.parse(savedCart);
+      dispatch(setCart(parsed));
     }
     sessionStorage.setItem(
       "userSession",
@@ -28,7 +35,7 @@ export default function Auth() {
   };
 
   const handleLogout = () => {
-    // sessionStorage.removeItem("userSession");
+    sessionStorage.setItem(`user_${user.email}_cart`, JSON.stringify(cart));
     dispatch(logout());
   };
 
