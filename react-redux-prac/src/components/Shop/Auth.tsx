@@ -1,6 +1,6 @@
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { login, logout } from "../../redux/user/userSlice";
-
+import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 
 export default function Auth() {
@@ -10,10 +10,25 @@ export default function Auth() {
   const dispatch = useAppDispatch();
 
   const handleLogin = () => {
-    dispatch(login({ email, name }));
+    let id = sessionStorage.getItem(`userId_${email}`);
+    if (!id) {
+      id = uuidv4();
+      sessionStorage.setItem(`userId_${email}`, id);
+    }
+    sessionStorage.setItem(
+      "userSession",
+      JSON.stringify({
+        userId: id,
+        Email: email,
+        userName: name,
+        isLoggedIn: true,
+      })
+    );
+    dispatch(login({ id, email, name }));
   };
 
   const handleLogout = () => {
+    // sessionStorage.removeItem("userSession");
     dispatch(logout());
   };
 

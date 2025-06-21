@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
 
 interface UserState {
   id: string | null;
@@ -20,8 +19,11 @@ const userSlice = createSlice({
   name: "user",
   initialState: initialUserState,
   reducers: {
-    login: (state, action: PayloadAction<{ name: string; email: string }>) => {
-      state.id = uuidv4();
+    login: (
+      state,
+      action: PayloadAction<{ id: string; name: string; email: string }>
+    ) => {
+      state.id = action.payload.id;
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.isLoggedIn = true;
