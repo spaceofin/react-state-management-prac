@@ -3,6 +3,7 @@ import { login, logout } from "../../redux/user/userSlice";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { setCart } from "../../redux/cart/cartSlice";
+import { resetAll } from "../../redux/common/resetAction";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
@@ -36,6 +37,7 @@ export default function Auth() {
 
   const handleLogout = () => {
     sessionStorage.setItem(`user_${user.email}_cart`, JSON.stringify(cart));
+    dispatch(resetAll());
     dispatch(logout());
   };
 

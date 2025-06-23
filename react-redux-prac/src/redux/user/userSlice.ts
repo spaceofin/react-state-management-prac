@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { resetAll } from "../common/resetAction";
 
 interface UserState {
   id: string | null;
@@ -29,11 +30,15 @@ const userSlice = createSlice({
       state.isLoggedIn = true;
     },
     logout: (state) => {
+      state.isLoggedIn = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(resetAll, (state) => {
       state.id = null;
       state.name = null;
       state.email = null;
-      state.isLoggedIn = false;
-    },
+    });
   },
 });
 

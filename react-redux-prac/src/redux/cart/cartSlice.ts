@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Product } from "../../types/product";
 import type { CartItem } from "../../types/cart";
+import { resetAll } from "../common/resetAction";
 
 interface CartState {
   items: CartItem[];
@@ -48,6 +49,13 @@ const cartSlice = createSlice({
       state.totalQuantity = action.payload.totalQuantity;
       state.totalPrice = action.payload.totalPrice;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(resetAll, (state) => {
+      state.items = [];
+      state.totalQuantity = 0;
+      state.totalPrice = 0;
+    });
   },
 });
 

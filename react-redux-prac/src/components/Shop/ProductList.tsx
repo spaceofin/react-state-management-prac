@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import type { Product } from "../../types/product";
 import { setProduct } from "../../redux/product/productSlice";
@@ -43,10 +43,17 @@ function Product({
 export default function ProductList() {
   const { products } = useAppSelector((state) => state.productList);
   const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
 
   const [selectedProductIds, setSelectedProductIds] = useState<Set<number>>(
     new Set()
   );
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setSelectedProductIds(new Set());
+    }
+  }, [isLoggedIn]);
 
   const handleAddToCart = () => {
     const selectedProducts = products.filter((product) =>
@@ -56,7 +63,7 @@ export default function ProductList() {
   };
 
   return (
-    <div className="bg-orange-500/90 w-96 h-56 rounded-md py-5 px-10 text-white">
+    <div className="bg-orange-500/90 w-96 h-56 rounded-md py-5 px-10 text-white flex flex-col justify-between">
       <h2 className="text-3xl font-bold mb-4">Products</h2>
       <div className="inline-grid grid-cols-2 gap-1 w-full">
         {products.map((product) => (
