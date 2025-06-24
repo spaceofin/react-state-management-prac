@@ -3,17 +3,14 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Product } from "../../types/product";
 import type { CartItem } from "../../types/cart";
 import { resetAll } from "../common/resetAction";
+import type { RootState } from "../store";
 
 interface CartState {
   items: CartItem[];
-  totalQuantity: number;
-  totalPrice: number;
 }
 
 const initialState: CartState = {
   items: [],
-  totalQuantity: 0,
-  totalPrice: 0,
 };
 
 const cartSlice = createSlice({
@@ -46,18 +43,23 @@ const cartSlice = createSlice({
     },
     setCart: (state, action: PayloadAction<CartState>) => {
       state.items = action.payload.items;
-      state.totalQuantity = action.payload.totalQuantity;
-      state.totalPrice = action.payload.totalPrice;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(resetAll, (state) => {
       state.items = [];
-      state.totalQuantity = 0;
-      state.totalPrice = 0;
     });
   },
 });
+
+export const selectCartTotalPrice = (state: RootState) =>
+  state.cart.items.reduce(
+    (sum, item) => sum + item.product.price * item.quantity,
+    0
+  );
+
+export const selectCartTotalQuantity = (state: RootState) =>
+  state.cart.items.reduce((sum, item) => sum + item.quantity, 0);
 
 export const {
   addItems,

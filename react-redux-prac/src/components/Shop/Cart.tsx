@@ -5,6 +5,8 @@ import {
   increaseItemQuantity,
   decreaseItemQuantity,
   removeItem,
+  selectCartTotalQuantity,
+  selectCartTotalPrice,
 } from "../../redux/cart/cartSlice";
 import { IoMdCloseCircle } from "react-icons/io";
 
@@ -46,11 +48,14 @@ function CartItem({ item }: { item: CartItem }) {
   };
 
   return (
-    <div className="w-[300px] flex justify-between bg-gray-50/50 py-1 px-2 rounded-sm">
-      <span className="bg-gray-100 w-[130px] flex justify-center rounded-md text-gray-700">
-        {item.product.name}
-      </span>
-      <div className="flex gap-2 items-center">
+    <div className="w-[300px] flex flex-col gap-2 bg-gray-50/50 py-2 px-4 rounded-sm">
+      <div className="flex justify-between items-center">
+        <span className="bg-gray-100 w-[130px] flex justify-center rounded-md text-gray-700">
+          {item.product.name}
+        </span>
+        <span className="text-lg mr-2">Price: {item.product.price}</span>
+      </div>
+      <div className="flex gap-2 items-center justify-end">
         <QuantityControl
           value={item.quantity}
           onIncrease={handleIncrease}
@@ -69,14 +74,22 @@ function CartItem({ item }: { item: CartItem }) {
 
 export default function Cart() {
   const cart = useAppSelector((state) => state.cart);
+  const totalQuantity = useAppSelector(selectCartTotalQuantity);
+  const totalPrice = useAppSelector(selectCartTotalPrice);
 
   return (
-    <div className="flex flex-col bg-rose-500/80 w-full h-56 rounded-md py-5 px-10 text-white">
-      <h2 className="text-3xl font-bold mb-5">Cart</h2>
-      <div className="grid grid-cols-2 gap-1">
-        {cart.items.map((item) => (
-          <CartItem key={item.product.id} item={item} />
-        ))}
+    <div className="flex flex-col justify-between bg-rose-500/80 w-full h-74 rounded-md py-5 px-10 text-white gap-4">
+      <div className="flex flex-col gap-4">
+        <h2 className="text-3xl font-bold">Cart</h2>
+        <div className="grid grid-cols-2 gap-1">
+          {cart.items.map((item) => (
+            <CartItem key={item.product.id} item={item} />
+          ))}
+        </div>
+      </div>
+      <div className="flex justify-end text-xl gap-4 mr-10">
+        <span className="w-44">Total Quantity: {totalQuantity}</span>
+        <span className="w-44">Total Price: {totalPrice.toFixed(2)}</span>
       </div>
     </div>
   );
