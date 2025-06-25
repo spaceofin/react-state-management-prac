@@ -7,6 +7,7 @@ import User from "../components/Shop/User";
 import { useAppDispatch } from "../redux/hooks";
 import { setProducts } from "../redux/product/productListSlice";
 import productData from "../data/products.json";
+import Coupons from "../components/Shop/Coupons";
 
 export default function Shop() {
   const dispatch = useAppDispatch();
@@ -22,8 +23,9 @@ export default function Shop() {
         <User />
         <ProductList />
         <ProductDetail />
-        <div className="col-span-2">
+        <div className="flex flex-col col-span-2 gap-5">
           <Cart />
+          <Coupons />
         </div>
       </div>
     </div>
