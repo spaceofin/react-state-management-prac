@@ -4,6 +4,7 @@ import userReducer from "./user/userSlice";
 import productListReducer from "./product/productListSlice";
 import productReducer from "./product/productSlice";
 import cartReducer from "./cart/cartSlice";
+import { aReducer, bReducer } from "./state-panels";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,8 @@ export const store = configureStore({
     productList: productListReducer,
     product: productReducer,
     cart: cartReducer,
+    a: aReducer,
+    b: bReducer,
   },
 });
 
