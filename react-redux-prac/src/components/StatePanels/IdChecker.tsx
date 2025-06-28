@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import { selectHasId } from "../../redux/state-panels/cSlice";
-import { useRef } from "react";
+import React, { useRef } from "react";
 
-export default function IdChecker({ id }: { id: number }) {
+function IdCheckerComponent({ id }: { id: number }) {
   const hasId = useSelector(selectHasId(id));
   const renderCountRef = useRef(0);
   renderCountRef.current += 1;
@@ -17,3 +17,5 @@ export default function IdChecker({ id }: { id: number }) {
     </div>
   );
 }
+
+export const IdChecker = React.memo(IdCheckerComponent);

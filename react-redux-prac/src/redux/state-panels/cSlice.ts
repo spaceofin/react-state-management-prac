@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
 interface Cstate {
@@ -23,10 +23,16 @@ const initialState: Cstate = {
 const cSlice = createSlice({
   name: "c",
   initialState,
-  reducers: {},
+  reducers: {
+    addId: (state, action: PayloadAction<string>) => {
+      const num = Number(action.payload);
+      if (!isNaN(num)) state.ids[num] = true;
+    },
+  },
 });
 
 export const selectHasId = (id: number) => (state: RootState) =>
   Boolean(state.c.ids[id]);
 
+export const { addId } = cSlice.actions;
 export default cSlice.reducer;
