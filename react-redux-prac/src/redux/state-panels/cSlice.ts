@@ -2,11 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
 interface Cstate {
-  ids: Set<number>;
+  ids: { [id: number]: true };
 }
 
 const initialState: Cstate = {
-  ids: new Set([0, 2, 4, 6, 8, 10, 12, 14, 16, 18]),
+  ids: {
+    0: true,
+    2: true,
+    4: true,
+    6: true,
+    8: true,
+    10: true,
+    12: true,
+    14: true,
+    16: true,
+    18: true,
+  },
 };
 
 const cSlice = createSlice({
@@ -16,6 +27,6 @@ const cSlice = createSlice({
 });
 
 export const selectHasId = (id: number) => (state: RootState) =>
-  state.c.ids.has(id);
+  Boolean(state.c.ids[id]);
 
 export default cSlice.reducer;

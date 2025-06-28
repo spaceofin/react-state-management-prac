@@ -27,7 +27,7 @@ export default function PanelC() {
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex w-full text-xl bg-white/30 rounded-md py-2 px-4">
-          <span>Ids: [ {[...c.ids].join(",")} ]</span>
+          <span>Ids: [ {Object.keys(c.ids).join(", ")} ]</span>
         </div>
         <div className="flex flex-col gap-2 h-32">
           <div className="flex gap-2">
