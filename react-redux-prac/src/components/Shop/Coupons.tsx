@@ -1,18 +1,8 @@
 import { useState } from "react";
-
-type Coupon = {
-  code: string;
-  name: string;
-  type: "percent" | "fixed";
-  value: number;
-};
-
-const COUPONS: Coupon[] = [
-  { code: "OFF10", name: "10% Off Coupon", type: "percent", value: 0.1 },
-  { code: "OFF20", name: "20% Off Coupon", type: "percent", value: 0.2 },
-  { code: "FIXED10", name: "10 Off Coupon", type: "fixed", value: 10 },
-  { code: "FIXED20", name: "20 Off Coupon", type: "fixed", value: 20 },
-];
+import type { Coupon, CouponCode } from "../../types/coupon";
+import { COUPONS } from "../../constants/coupons";
+import { useAppDispatch } from "../../redux/hooks";
+import { setAppliedCoupon } from "../../redux/cart/cartSlice";
 
 function Coupon({
   coupon,
@@ -38,6 +28,17 @@ function Coupon({
 
 export default function Coupons() {
   const [selectedCoupon, setSelectedCoupon] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+
+  const handleCouponSelect = (code: CouponCode | null) => {
+    if (selectedCoupon === code) {
+      setSelectedCoupon("");
+      dispatch(setAppliedCoupon(null));
+    } else {
+      setSelectedCoupon(code);
+      dispatch(setAppliedCoupon(code));
+    }
+  };
 
   return (
     <div className="flex flex-col justify-between bg-stone-500/80 w-full h-74 rounded-md py-5 px-10 text-white gap-4">
@@ -49,7 +50,7 @@ export default function Coupons() {
               key={coupon.code}
               coupon={coupon}
               isSelected={selectedCoupon === coupon.code}
-              onSelect={() => setSelectedCoupon(coupon.code)}
+              onSelect={() => handleCouponSelect(coupon.code)}
             />
           ))}
         </div>

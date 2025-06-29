@@ -7,6 +7,7 @@ import {
   removeItem,
   selectCartTotalQuantity,
   selectCartTotalPrice,
+  selectDiscountedTotalPrice,
 } from "../../redux/cart/cartSlice";
 import { IoMdCloseCircle } from "react-icons/io";
 
@@ -76,6 +77,7 @@ export default function Cart() {
   const cart = useAppSelector((state) => state.cart);
   const totalQuantity = useAppSelector(selectCartTotalQuantity);
   const totalPrice = useAppSelector(selectCartTotalPrice);
+  const discountedTotalPrice = useAppSelector(selectDiscountedTotalPrice);
 
   return (
     <div className="flex flex-col justify-between bg-rose-500/80 w-full h-74 rounded-md py-5 px-10 text-white gap-4">
@@ -87,9 +89,12 @@ export default function Cart() {
           ))}
         </div>
       </div>
-      <div className="flex justify-end text-xl gap-4 mr-10">
+      <div className="flex justify-center text-xl gap-4 mr-10">
         <span className="w-44">Total Quantity: {totalQuantity}</span>
         <span className="w-44">Total Price: {totalPrice.toFixed(2)}</span>
+        <span className="w-72">
+          Discounted Total Price: {discountedTotalPrice.toFixed(2)}
+        </span>
       </div>
     </div>
   );

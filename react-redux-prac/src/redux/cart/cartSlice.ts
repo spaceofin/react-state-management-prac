@@ -1,16 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Product } from "../../types/product";
 import type { CartItem } from "../../types/cart";
 import { resetAll } from "../common/resetAction";
 import type { RootState } from "../store";
+import type { CouponCode } from "../../types/coupon";
+import { COUPONS } from "../../constants/coupons";
 
 interface CartState {
   items: CartItem[];
+  appliedCouponCode: CouponCode | null;
 }
 
 const initialState: CartState = {
   items: [],
+  appliedCouponCode: null,
 };
 
 const cartSlice = createSlice({
@@ -44,6 +48,9 @@ const cartSlice = createSlice({
     setCart: (state, action: PayloadAction<CartState>) => {
       state.items = action.payload.items;
     },
+    setAppliedCoupon: (state, action: PayloadAction<CouponCode | null>) => {
+      state.appliedCouponCode = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(resetAll, (state) => {
@@ -61,11 +68,41 @@ export const selectCartTotalPrice = (state: RootState) =>
 export const selectCartTotalQuantity = (state: RootState) =>
   state.cart.items.reduce((sum, item) => sum + item.quantity, 0);
 
+const selectCartItems = (state: RootState) => state.cart.items;
+const selectAppliedCouponCode = (state: RootState) =>
+  state.cart.appliedCouponCode;
+
+export const selectAppliedCoupon = createSelector(
+  [selectAppliedCouponCode],
+  (code) => COUPONS.find((coupon) => coupon.code === code) ?? null
+);
+
+export const selectDiscountedTotalPrice = createSelector(
+  [selectCartItems, selectAppliedCoupon],
+  (items, coupon) => {
+    const total = items.reduce(
+      (sum, item) => sum + item.product.price * item.quantity,
+      0
+    );
+
+    if (!coupon) return total;
+
+    if (coupon.type === "percent") {
+      return total * (1 - coupon.value);
+    } else if (coupon.type === "fixed") {
+      return Math.max(0, total - coupon.value);
+    }
+
+    return total;
+  }
+);
+
 export const {
   addItems,
   increaseItemQuantity,
   decreaseItemQuantity,
   removeItem,
   setCart,
+  setAppliedCoupon,
 } = cartSlice.actions;
 export default cartSlice.reducer;
