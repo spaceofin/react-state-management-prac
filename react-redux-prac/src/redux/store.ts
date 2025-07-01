@@ -5,6 +5,7 @@ import productListReducer from "./product/productListSlice";
 import productReducer from "./product/productSlice";
 import cartReducer from "./cart/cartSlice";
 import { aReducer, bReducer, cReducer, dReducer } from "./state-panels";
+import booksReducer from "./books/booksSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     b: bReducer,
     c: cReducer,
     d: dReducer,
+    books: booksReducer,
   },
 });
 
