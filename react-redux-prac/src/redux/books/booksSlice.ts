@@ -28,6 +28,7 @@ export const booksSelectors = booksAdapter.getSelectors<RootState>(
 );
 
 export const allBooks = booksSelectors.selectAll;
+export const selectBooksCount = booksSelectors.selectTotal;
 
 export const { bookAdded, booksReceived } = booksSlice.actions;
 export default booksSlice.reducer;

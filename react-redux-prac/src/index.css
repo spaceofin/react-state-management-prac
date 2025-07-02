@@ -25,3 +25,7 @@ body {
   min-width: 100vw;
   min-height: 100vh;
 }
+
+.scrollbar-custom {
+  scrollbar-color: #4fb3cc #eee;
+}
