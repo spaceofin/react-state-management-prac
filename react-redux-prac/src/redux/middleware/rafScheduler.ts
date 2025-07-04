@@ -6,7 +6,7 @@ import type { RootState } from "../store";
  * frame.  Makes `dispatch` return a function to remove the action from the queue in
  * this case.
  */
-const rafScheduler: Middleware<{}, RootState> = (store) => (next) => {
+const rafScheduler: Middleware = (store) => (next) => {
   let queuedActions: any[] = [];
   let frame: number | null = null;
 

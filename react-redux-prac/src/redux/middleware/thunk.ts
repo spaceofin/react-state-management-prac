@@ -10,7 +10,7 @@ import type { RootState } from "../store";
  *
  * `dispatch` will return the return value of the dispatched function.
  */
-const thunk: Middleware<{}, RootState> = (store) => (next) => (action) =>
+const thunk: Middleware = (store) => (next) => (action) =>
   typeof action === "function"
     ? action(store.dispatch, store.getState)
     : next(action);

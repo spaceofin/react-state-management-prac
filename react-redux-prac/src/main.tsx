@@ -9,6 +9,7 @@ import App from "./App.tsx";
 import Shop from "./pages/Shop.tsx";
 import StatePanels from "./pages/StatePanels.tsx";
 import Books from "./pages/Books.tsx";
+import "./sentry.ts";
 
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>

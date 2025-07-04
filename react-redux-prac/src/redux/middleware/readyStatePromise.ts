@@ -9,23 +9,22 @@ import type { RootState } from "../store";
  *
  * For convenience, `dispatch` will return the promise so the caller can wait.
  */
-const readyStatePromise: Middleware<{}, RootState> =
-  (store) => (next) => (action: any) => {
-    if (!action.promise) {
-      return next(action);
-    }
+const readyStatePromise: Middleware = (store) => (next) => (action: any) => {
+  if (!action.promise) {
+    return next(action);
+  }
 
-    function makeAction(ready: boolean, data?: { result?: any; error?: any }) {
-      const newAction = Object.assign({}, action, { ready }, data);
-      delete newAction.promise;
-      return newAction;
-    }
+  function makeAction(ready: boolean, data?: { result?: any; error?: any }) {
+    const newAction = Object.assign({}, action, { ready }, data);
+    delete newAction.promise;
+    return newAction;
+  }
 
-    next(makeAction(false));
-    return action.promise.then(
-      (result: any) => next(makeAction(true, { result })),
-      (error: any) => next(makeAction(true, { error }))
-    );
-  };
+  next(makeAction(false));
+  return action.promise.then(
+    (result: any) => next(makeAction(true, { result })),
+    (error: any) => next(makeAction(true, { error }))
+  );
+};
 
 export default readyStatePromise;

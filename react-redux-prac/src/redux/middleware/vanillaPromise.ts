@@ -6,13 +6,12 @@ import type { RootState } from "../store";
  * If the promise is resolved, its result will be dispatched as an action.
  * The promise is returned from `dispatch` so the caller may handle rejection.
  */
-const vanillaPromise: Middleware<{}, RootState> =
-  (store) => (next) => (action: any) => {
-    if (typeof action.then !== "function") {
-      return next(action);
-    }
+const vanillaPromise: Middleware = (store) => (next) => (action: any) => {
+  if (typeof action.then !== "function") {
+    return next(action);
+  }
 
-    return Promise.resolve(action).then(store.dispatch);
-  };
+  return Promise.resolve(action).then(store.dispatch);
+};
 
 export default vanillaPromise;
