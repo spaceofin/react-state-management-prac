@@ -1,5 +1,6 @@
 import {
   createEntityAdapter,
+  createSelector,
   createSlice,
   type PayloadAction,
 } from "@reduxjs/toolkit";
@@ -14,11 +15,14 @@ const booksAdapter = createEntityAdapter({
 
 const booksSlice = createSlice({
   name: "books",
-  initialState: booksAdapter.getInitialState(),
+  initialState: booksAdapter.getInitialState({ searchQuery: "" }),
   reducers: {
     bookAdded: booksAdapter.addOne,
     booksReceived(state, action: PayloadAction<Book[]>) {
       booksAdapter.setAll(state, action.payload);
+    },
+    setSearchQuery(state, action: PayloadAction<string>) {
+      state.searchQuery = action.payload;
     },
   },
 });
@@ -30,5 +34,15 @@ export const booksSelectors = booksAdapter.getSelectors<RootState>(
 export const allBooks = booksSelectors.selectAll;
 export const selectBooksCount = booksSelectors.selectTotal;
 
-export const { bookAdded, booksReceived } = booksSlice.actions;
+export const selectFilteredBooks = createSelector(
+  [allBooks, (state: RootState) => state.books.searchQuery],
+  (allBooks, searchQuery) => {
+    if (!searchQuery) return [];
+    return allBooks.filter((book: Book) =>
+      book.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
+);
+
+export const { bookAdded, booksReceived, setSearchQuery } = booksSlice.actions;
 export default booksSlice.reducer;

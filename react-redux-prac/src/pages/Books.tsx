@@ -1,5 +1,6 @@
 import AddBookForm from "../components/Books/AddBookForm";
 import BookList from "../components/Books/BookList";
+import BookSearch from "../components/Books/BookSearch";
 
 export default function Books() {
   return (
@@ -8,6 +9,7 @@ export default function Books() {
         <BookList />
         <div className="flex flex-col gap-5">
           <AddBookForm />
+          <BookSearch />
         </div>
       </div>
     </div>

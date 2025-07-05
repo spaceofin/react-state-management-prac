@@ -21,7 +21,7 @@ export default function BookList() {
       <h2 className="text-3xl font-bold text-white">Books</h2>
       <div className="text-md font-mono py-2 mb-3 overflow-y-auto scrollbar-custom">
         {books.map((book) => (
-          <div>{book.title}</div>
+          <div key={book.bookId}>{book.title}</div>
         ))}
       </div>
     </div>
